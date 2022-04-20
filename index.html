@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head>
+	<meta charset="UTF-8"/>
+	<title>Register Landing Page</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" type="image/jpg"
+	      href=""/>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+	      integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous"/>
+	<style>
+        body {
+            background-color: #333333;
+        }
+
+        .error {
+            color: red;
+            font-style: italic;
+        }
+
+        .footerSize {
+            font-size: 13px;
+        }
+        .modal-dialog {
+	         box-shadow: 10px 10px 20px #5a5a5a;
+        }
+
+        /* Overlay and spinner */
+        #overlay {
+            position: fixed;
+            /* Sit on top of the page content */
+            display: none;
+            /* Hidden by default */
+            width: 100%;
+            /* Full width (cover the whole page) */
+            height: 100%;
+            /* Full height (cover the whole page) */
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Black background with opacity */
+            z-index: 2;
+            /* Specify a stack order in case you're using a different order for other elements */
+            cursor: pointer;
+            /* Add a pointer on hover */
+        }
+
+        .orbit-spinner,
+        .orbit-spinner * {
+            box-sizing: border-box;
+        }
+
+        .orbit-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -50px;
+            margin-left: -50px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            perspective: 800px;
+        }
+
+        .orbit-spinner .orbit {
+            position: absolute;
+            box-sizing: border-box;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+
+        .orbit-spinner .orbit:nth-child(1) {
+            left: 0;
+            top: 0;
+            animation: orbit-spinner-orbit-one-animation 1200ms linear infinite;
+            border-bottom: 3px solid #2776FA;
+        }
+
+        .orbit-spinner .orbit:nth-child(2) {
+            right: 0;
+            top: 0;
+            animation: orbit-spinner-orbit-two-animation 1200ms linear infinite;
+            border-right: 3px solid #056ADD;
+        }
+
+        .orbit-spinner .orbit:nth-child(3) {
+            right: 0;
+            bottom: 0;
+            animation: orbit-spinner-orbit-three-animation 1200ms linear infinite;
+            border-top: 3px solid #012762;
+        }
+
+        @keyframes orbit-spinner-orbit-one-animation {
+            0% {
+                transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
+            }
+
+            100% {
+                transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
+            }
+        }
+
+        @keyframes orbit-spinner-orbit-two-animation {
+            0% {
+                transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg);
+            }
+
+            100% {
+                transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg);
+            }
+        }
+
+        @keyframes orbit-spinner-orbit-three-animation {
+            0% {
+                transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg);
+            }
+
+            100% {
+                transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
+            }
+        }
+
+        #errorMessage {
+            font-size: 15px;
+            height: auto
+        }
+
+        /* End of overlay and spinner  */
+	</style>
+</head>
+
+<body>
+<section>
+	<div id="overlay">
+		<div class="orbit-spinner">
+			<div class="orbit"></div>
+			<div class="orbit"></div>
+			<div class="orbit"></div>
+		</div>
+	</div>
+</section>
+<section class="py-5">
+	<div class="container">
+		<div class="d-flex justify-content-center">
+			<div class="content">
+				<div class="text-center">
+					<img class="logo" alt="logo" src="images/logo-white-square.png"/>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<section>
+	<div class="row">
+		<div class="col-12">
+			<div class="modal modal-register position-static d-block" tabindex="-1" role="dialog"
+			     id="modalregister">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content rounded-5 shadow">
+						<div class="modal-header pb-4 border-bottom-0">
+							<h2 class="fw-bold mb-0">Sign up for free</h2>
+						</div>
+						<div class="modal-body mr-md-5 ml-md-5 pt-0">
+							<div class="alert alert-success text-center" style="display: none;" role="alert">
+								<span id="successMessage"></span>
+							</div>
+
+							<div class="alert alert-danger text-center" style="display: none;" role="alert">
+								<span id="errorMessage"></span>
+							</div>
+
+							<form class="" id="register_live" action="" method="POST">
+								<div class="row">
+									<div class="col">
+										<div class="form-floating mb-3">
+											<input type="text" class="form-control rounded-4" name="fname"
+											       id="fname" required/>
+											<label for="fname">First Name</label>
+											<small class="error pl-5" id="fname_error"></small>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<div class="form-floating mb-3">
+											<input type="text" class="form-control rounded-4" name="lname"
+											       id="lname" required/>
+											<label for="lname">Last Name</label>
+											<small class="error pl-5" id="lname_error"></small>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<div class="form-floating mb-3">
+											<input type="email" class="form-control rounded-4" name="email"
+											       id="email" placeholder="name@example.com" required/>
+											<label for="email">Email address</label>
+											<small class="error pl-5" id="email_error"></small>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<div class="form-floating mb-3">
+											<input type="password" class="form-control rounded-4" name="password"
+											       id="password" placeholder="Password" required/>
+											<label for="password">Password</label>
+											<small class="error pl-5" id="password_error"></small>
+
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<div class="form-check mb-4">
+											<input class="form-check-input" type="checkbox" id="termsAndConditions"
+											       name="termsAndConditions"/>
+											<label class="form-check-label" for="termsAndConditions">
+												I agree to the
+												<a target="_blank"
+												   href="">Terms
+													and Conditions</a>
+												and
+												<a target="_blank"
+												   href="">Privacy
+													Policy</a>.
+												<br/>
+												<div class="text-muted small font-italic">
+														I agree to receive marketing and promotional
+														communication.</div>
+											</label>
+											<br>
+											<small class="error pl-5" id="termsAndConditions_error"></small>
+										</div>
+									</div>
+								</div>
+								<button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" type="submit">
+									Sign up
+								</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="pt-3 bgBlue">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<p class="mt-4 text-light footerSize">
+					<strong> Lorem Ipsum </strong>
+					<br>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+				</p>
+			</div>
+		</div>
+		<div class="row mt-4">
+			<div class="col-12">
+				<p class="text-light footerSize">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"></script>
+
+<script>
+	$(document).ready(function () {
+
+		var $_form = $("#register_live");
+
+
+		$.validator.addMethod("regex", function (value, element, regexp) {
+				var check = false;
+				return this.optional(element) || regexp.test(value);
+			}, "Please check your input."
+		);
+
+		$_form.validate({
+			errorPlacement: function (error, element) {
+				var id = element.attr("id");
+				var $errorElement = $("#" + id + "_error");
+				$errorElement.html(error.text());
+			},
+			success: function (label, element) {
+				label.empty();
+			},
+			rules: {
+				fname: {
+					required: true,
+					regex: /^[-a-zA-Z]+(\s+[-a-zA-Z]+)*$/
+				},
+				lname: {
+					required: true,
+					regex: /^[-a-zA-Z]+(\s+[-a-zA-Z]+)*$/
+				},
+				email: {
+					required: true,
+					regex: /^(?!.{45})(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)/
+				},
+				password: {
+					required: true,
+					minlength: 6,
+					regex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*#?&]{6,18}$/
+				},
+				termsAndConditions: {
+					required: true
+				},
+			},
+
+			messages: {
+				fname: {
+					required: 'First Name is required',
+					regex: 'No digits allowed'
+				},
+				lname: {
+					required: 'Last Name is required',
+					regex: 'No digits allowed'
+				},
+				email: {
+					required: 'Email is required',
+					regex: 'Email address is not a valid'
+				},
+				password: {
+					required: 'Password is required',
+					minlength: 'Minimum 6 characters',
+					regex: 'Password must be between 6 to 18 characters long, must contain at least one uppercase, one lowercase character and one number.'
+				},
+				termsAndConditions: {
+					required: 'Please tick you have acknowledged the Terms & Conditions and Privacy Policy'
+				},
+			},
+
+			submitHandler: function () {
+				submit();
+				return false;
+			}
+		});
+
+		function submit() {
+			$("#overlay").css("display", "block");
+
+			//get query string if any
+			const urlSearchParams = new URLSearchParams(window.location.search);
+			let urlParams = Object.fromEntries(urlSearchParams.entries());
+
+			let fname = $("#fname").val();
+			let lname = $("#lname").val();
+			let email = $("#email").val();
+			let password = $("#password").val();
+
+
+			let register = {
+				fname: fname,
+				lname: lname,
+				email: email,
+				password: password,
+				tac: $("#termsAndConditions").val() === "on",
+			};
+
+			//assign query string to register
+			register = Object.assign(urlParams, register);
+
+			$.ajax({
+				url: '',
+				dataType: 'json',
+				method: "POST",
+				data: register,
+				success: function (data) {
+					$("#overlay").css("display", "none");
+					if (data["success"]) {
+
+						$(".alert-danger").css("display", "none");
+						$(".alert-success").css("display", "block");
+						$("#successMessage").html("You have been registered!");
+
+					} else {
+						$(".alert-success").css("display", "none");
+						$(".alert-danger").css("display", "block");
+						$("#errorMessage").html("There was an issue with your registration. <br> Please try again or contact us at <a href='mailto:test@test.com'>test@test.com</a>");
+					}
+				},
+				error: function (data) {
+					$("#overlay").css("display", "none");
+					$(".alert-success").css("display", "none");
+					$(".alert-danger").css("display", "block");
+					$("#errorMessage").html("There was an issue with your registration. <br> Please try again or contact us at <a href='mailto:test@test.com'>test@test.com</a>");
+				}
+			});
+		}
+	});
+</script>
+</body>
+
+</html>
